@@ -76,7 +76,7 @@ class NifImportOperator(Operator, ImportHelper, NifOperatorCommon):
         subtype="FILE_PATH")
 
     # Import animation.
-    animation = bpy.props.BoolProperty(
+    animation: bpy.props.BoolProperty(
         name="Animation",
         description="Import animation.",
         default=False)
@@ -145,10 +145,10 @@ class NifImportOperator(Operator, ImportHelper, NifOperatorCommon):
         """
 
         # setup the viewport for preferred viewing settings
-        bpy.context.scene.game_settings.material_mode = 'GLSL'
-        for area in bpy.context.window.screen.areas:
-            if area.type == 'VIEW_3D':
-                area.spaces[0].viewport_shade = 'MATERIAL'
-                area.spaces[0].show_backface_culling = True
+        #bpy.context.scene.game_settings.material_mode = 'GLSL'
+        #for area in bpy.context.window.screen.areas:
+        #    if area.type == 'VIEW_3D':
+        #        area.spaces[0].viewport_shade = 'MATERIAL'
+        #        area.spaces[0].show_backface_culling = True
 
         return nif_import.NifImport(self, context).execute()
