@@ -91,7 +91,7 @@ def vec_roll_to_mat3(vec, roll):
     rMatrix = mathutils.Matrix.Rotation(roll, 3, nor)
 
     # Combine and output result
-    mat = rMatrix * bMatrix
+    mat = rMatrix @ bMatrix
     return mat
 
 
@@ -100,7 +100,7 @@ def mat3_to_vec_roll(mat):
     vec = mat.col[1]
     vecmat = vec_roll_to_mat3(mat.col[1], 0)
     vecmatinv = vecmat.inverted()
-    rollmat = vecmatinv * mat
+    rollmat = vecmatinv @ mat
     roll = math.atan2(rollmat[0][2], rollmat[2][2])
     return vec, roll
 

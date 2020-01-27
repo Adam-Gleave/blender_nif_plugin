@@ -249,7 +249,7 @@ class Mesh:
                         trishape.flags = 0x0016
                 else:
                     # morrowind
-                    if b_obj.draw_type != 'WIRE':  # not wire
+                    if b_obj.display_type != 'WIRE':  # not wire
                         trishape.flags = 0x0004  # use triangles as bounding box
                     else:
                         trishape.flags = 0x0005  # use triangles as bounding box + hide

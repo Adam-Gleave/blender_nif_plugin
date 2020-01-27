@@ -52,22 +52,22 @@ class CollisionBoundsPanel(Panel):
     '''
 
     def draw_header(self, context):
-        game = context.active_object.game
-        self.layout.prop(game, "use_collision_bounds", text="")
+        collision = context.active_object.collision
+        self.layout.prop(collision, "use", text="")
 
     def draw(self, context):
         layout = self.layout
 
-        game = context.active_object.game
+        rigidbody = context.active_object.rigid_body
         col_setting = context.active_object.nifcollision
 
-        layout.active = game.use_collision_bounds
-        layout.prop(game, "collision_bounds_type", text="Bounds Type")
-        layout.prop(game, "radius", text="Radius")
-        layout.prop(game, "velocity_max", text="Velocity Max")
+        layout.active = context.active_object.collision.use
+        layout.prop(context.active_object.rigid_body, "collision_shape", text="Collision Shape")
+        #layout.prop(game, "radius", text="Radius")
+        #layout.prop(game, "velocity_max", text="Velocity Max")
 
         box = layout.box()
-        box.active = game.use_collision_bounds
+        box.active = context.active_object.collision.use
 
         box.prop(col_setting, "col_filter", text='Col Filter')  # col filter prop
         box.prop(col_setting, "deactivator_type", text='Deactivator Type')  # motion dactivation prop

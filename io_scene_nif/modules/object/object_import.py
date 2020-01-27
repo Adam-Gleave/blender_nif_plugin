@@ -93,10 +93,11 @@ class Object:
             n_name = name
         # let blender choose a name
         b_obj = bpy.data.objects.new(n_name, b_obj_data)
-        b_obj.select = True
         # make the object visible and active
-        bpy.context.scene.objects.link(b_obj)
-        bpy.context.scene.objects.active = b_obj
+        view_layer = bpy.context.view_layer
+        view_layer.active_layer_collection.collection.objects.link(b_obj)
+        b_obj.select_set(True)
+        view_layer.objects.active = b_obj
         block_store.store_longname(b_obj, n_name)
         return b_obj
 
@@ -120,10 +121,10 @@ class Object:
     def import_root_collision(self, n_node, b_obj):
         """ Import a RootCollisionNode """
         if isinstance(n_node, NifFormat.RootCollisionNode):
-            b_obj.draw_type = 'BOUNDS'
+            b_obj.display_type = 'BOUNDS'
             b_obj.show_wire = True
-            b_obj.draw_bounds_type = 'BOX'
-            b_obj.game.use_collision_bounds = True
+            b_obj.display_bounds_type = 'BOX'
+            b_obj.collision.use = True
             b_obj.game.collision_bounds_type = 'TRIANGLE_MESH'
             b_obj.niftools.objectflags = n_node.flags
             b_mesh = b_obj.data
@@ -150,7 +151,7 @@ class Object:
                 mpi.translation.y -= b_obj.length
                 # essentially we mimic a transformed matrix_parent_inverse and delegate its transform
                 # nb. matrix local is relative to the armature object, not the bone
-                b_child.matrix_local = mpi * b_child.matrix_basis
+                b_child.matrix_local = mpi @ b_child.matrix_basis
         else:
             raise RuntimeError("Unexpected object type %s" % b_obj.__class__)
 
@@ -197,9 +198,9 @@ class Object:
 
         # Mesh hidden flag
         if n_block.flags & 1 == 1:
-            b_obj.draw_type = 'WIRE'  # hidden: wire
+            b_obj.display_type = 'WIRE'  # hidden: wire
         else:
-            b_obj.draw_type = 'TEXTURED'  # not hidden: shaded
+            b_obj.display_type = 'TEXTURED'  # not hidden: shaded
 
         return b_obj
 
@@ -224,7 +225,7 @@ class Object:
         b_obj = self.create_mesh_object(n_block)
         transform = nif_utils.import_matrix(n_block)  # set transform matrix for the mesh
         self.mesh.import_mesh(n_block, b_obj, transform)
-        bpy.context.scene.objects.active = b_obj
+        bpy.context.view_layer.objects.active = b_obj
         # store flags etc
         self.import_object_flags(n_block, b_obj)
         # skinning? add armature modifier

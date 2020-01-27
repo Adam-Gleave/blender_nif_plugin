@@ -85,12 +85,19 @@ class Collision:
     def set_b_collider(self, b_obj, bounds_type, radius, n_obj=None):
         """ Helper function to set up b_obj so it becomes recognizable as a collision object """
         # set bounds type
-        b_obj.draw_type = 'BOUNDS'
+        b_obj.display_type = 'BOUNDS'
         # b_obj.show_bounds = True
-        b_obj.draw_bounds_type = bounds_type
-        b_obj.game.use_collision_bounds = True
-        b_obj.game.collision_bounds_type = bounds_type
-        b_obj.game.radius = radius
+        b_obj.display_bounds_type = bounds_type
+        b_obj.collision.use = True
+
+        if not bpy.context.scene.rigidbody_world:
+            bpy.ops.rigidbody.world_add()
+        if not bpy.context.scene.rigidbody_world.collection:
+            bpy.context.scene.rigidbody_world.collection = bpy.data.collections.new('RigidBodyWorld')
+        bpy.context.scene.rigidbody_world.collection.objects.link(b_obj)
+        b_obj.rigid_body.collision_shape = bounds_type
+        
+        #b_obj.game.radius = radius
         b_me = b_obj.data
         if n_obj:
             # todo [pyffi] nif xml 0.7.1.1 HavokMaterial is a union of 3 enums under the HavokMaterial.material field, probably broken!

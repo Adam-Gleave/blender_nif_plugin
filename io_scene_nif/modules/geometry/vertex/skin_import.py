@@ -137,7 +137,7 @@ class VertexGroup:
                     vertex_weights = bone_weights[idx].vertex_weights
                     group_name = block_store.import_name(n_bone)
                     if group_name not in b_obj.vertex_groups:
-                        v_group = b_obj.vertex_groups.new(group_name)
+                        v_group = b_obj.vertex_groups.new(name=group_name)
 
                     for skinWeight in vertex_weights:
                         vert = skinWeight.index

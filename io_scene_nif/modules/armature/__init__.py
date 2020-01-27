@@ -160,7 +160,7 @@ def get_bind_matrix(bone):
 
 
 def nif_bind_to_blender_bind(nif_armature_space_matrix):
-    return correction_inv * correction * nif_armature_space_matrix * correction_inv
+    return correction_inv @ correction @ nif_armature_space_matrix @ correction_inv
 
 
 def get_armature():
