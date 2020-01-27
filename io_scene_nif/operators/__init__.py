@@ -52,12 +52,12 @@ def register():
         geometry.BsInvMarkerRemove,
         geometry.NfTlPartFlagRemove,
 
+        nif_common_op.NifOperatorCommon,
+
         nif_import_op.NifImportOperator,
 
         nif_export_op.NifExportOperator,
         nif_export_op.NifFormat,
-
-        nif_common_op.NifOperatorCommon,
 
         kf_import_op.KfImportOperator,
     )
@@ -66,5 +66,5 @@ def register():
     for cls in classes:
         try:
             register_class(cls)
-        except:
-            print(cls)
+        except RuntimeError as e:
+            print(cls, e)

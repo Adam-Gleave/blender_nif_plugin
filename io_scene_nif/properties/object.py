@@ -50,9 +50,9 @@ from pyffi.formats.nif import NifFormat
 
 
 class ExtraData(PropertyGroup):
-    name = StringProperty()
-    data = StringProperty()
-    sub_class = StringProperty()
+    name: StringProperty()
+    data: StringProperty()
+    sub_class: StringProperty()
 
 
 #     def __new__(self, name, data, sub_class):
@@ -61,12 +61,23 @@ class ExtraData(PropertyGroup):
 #         self.sub_class = sub_class
 
 
-class BSXFlags:
+class BSXFlags(PropertyGroup):
     # type = NifFormat.BSXFlags()
-    #     data = {}
+    # data = {}
 
-    def __init__(self):
-        self.name = "BSXFlag"
+    @classmethod
+    def register(cls):
+        cls.name = CollectionProperty(
+            name = "BSXFlag",
+            description="Used to store flag information",
+            type=BSXFlags
+        )
+
+    @classmethod
+    def unregister(cls):
+        del cls.name
+
+
 
 
 class ExtraDataStore(PropertyGroup):
