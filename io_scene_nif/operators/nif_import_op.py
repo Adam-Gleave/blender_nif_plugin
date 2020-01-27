@@ -42,7 +42,7 @@ from bpy.types import Operator
 from bpy_extras.io_utils import ImportHelper, orientation_helper
 
 from io_scene_nif import nif_import
-from io_scene_nif.operators.nif_common_op import NifOperatorCommon
+from .nif_common_op import NifOperatorCommon
 
 @orientation_helper(axis_forward='Z', axis_up='Y')
 class NifImportOperator(Operator, ImportHelper, NifOperatorCommon):

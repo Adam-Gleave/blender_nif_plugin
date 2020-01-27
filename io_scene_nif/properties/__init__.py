@@ -41,6 +41,39 @@
 def register():
     from . import armature, collision, constraint, geometry, material, object, scene, shader
 
+    classes = (
+        armature.ArmatureProperty,
+        armature.BoneProperty,
+
+        collision.CollisionProperty,
+
+        constraint.ConstraintProperty,
+
+        geometry.SkinPartFlags,
+        geometry.SkinPartHeader,
+
+        material.AlphaFlags,
+        material.Material,
+
+        object.BsInventoryMarker,
+        object.BSXFlags,
+        object.ExtraData,
+        object.ExtraDataStore,
+        object.NifFormat,
+        object.ObjectProperty,
+
+        scene.Scene,
+
+        shader.ShaderProps,    
+    )
+
+    from bpy.utils import register_class
+    for cls in classes:
+        try:
+            register_class(cls)
+        except:
+            print(cls)
+
 
 def underscore_to_camelcase(s):
     """Take the underscore-separated string s and return a camelCase
